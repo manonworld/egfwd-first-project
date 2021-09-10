@@ -14,6 +14,10 @@ class SearchBooks extends Component {
             this.setState( () => ({
                 searchResults: true
             }));
+        } else {
+            this.setState( () => ({
+                searchResults: false
+            }));
         }
     }
 
@@ -28,12 +32,12 @@ class SearchBooks extends Component {
                 </div>
                 <div className="search-books-results">
                     <div className="bookshelf">
-                        <h2 className="bookshelf-title">{this.props.searchResults ? 'Search Results' : 'Recommended Reads'}</h2>
+                        <h2 className="bookshelf-title">{this.state.searchResults ? 'Search Results' : 'Currently in Library'}</h2>
                         <div className="bookshelf-books">
                             <ol className="books-grid">
                             {this.state.searchResults
-                                ? <BooksIterator moveBook={this.props.moveBook} books={this.props.searchResults} />
-                                : <BooksIterator moveBook={this.props.moveBook} books={this.props.books} />}
+                                ? <BooksIterator searchOrList='search' moveBook={this.props.moveBook} books={this.props.searchResults} />
+                                : <BooksIterator searchOrList='list' moveBook={this.props.moveBook} books={this.props.books} />}
                             </ol>
                         </div>
                     </div>

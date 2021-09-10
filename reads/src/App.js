@@ -44,22 +44,38 @@ class BooksApp extends React.Component {
     ));
   };
 
-  moveBook = ( shelf, bookId ) => {
+  moveBook = ( shelf, bookId, searchOrList ) => {
     BooksAPI.get( bookId ).then( ( book ) => (
       BooksAPI.update( book, shelf ).then( ( data ) => {
-        this.setState( ( prevState ) => {
-          let bookIdx = prevState.books.findIndex((obj => obj.id === bookId));
-          let updatedBook = prevState.books[bookIdx];
-          updatedBook.shelf = shelf;
-          let newBooksList = prevState.books.filter((book) => book.id !== bookId);
-          let finalBooksList = [...newBooksList, updatedBook];
-          return {
-            books: finalBooksList
-          };
-        })
+        if ( searchOrList === 'search' ) {
+          this.updateSearchResults( bookId, shelf );
+          this.updateBooksList( book, shelf );
+        } else {
+          this.updateBooksList( book, shelf );
+        }
       })
     ));
   };
+
+  updateBooksList = ( book, shelf ) => {
+    this.setState( ( prevState ) => {
+      book.shelf = shelf;
+      let newBooksList = prevState.books.filter( (bk) => bk.id !== book.id );
+      return { books: [ ...newBooksList, book ] };
+    });
+  }
+
+  updateSearchResults = ( bookId, shelf ) => {
+    this.setState( ( prevState ) => {
+      let books = prevState.searchResults;
+      let bookIdx = books.findIndex( ( obj => obj.id === bookId ) );
+      let bookToUpdate = books[ bookIdx ];
+      bookToUpdate.shelf = shelf;
+      let newBooksList = books.filter( (book) => book.id !== bookId );
+      let finalBooksList = [ ...newBooksList, bookToUpdate ];
+      return { searchResults: finalBooksList };
+    });
+  }
 
 
   render() {
