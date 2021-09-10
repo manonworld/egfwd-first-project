@@ -32,8 +32,8 @@ class SearchBooks extends Component {
                         <div className="bookshelf-books">
                             <ol className="books-grid">
                             {this.state.searchResults
-                                ? <BooksIterator books={this.props.searchResults} />
-                                : <BooksIterator books={this.props.books} />}
+                                ? <BooksIterator moveBook={this.props.moveBook} books={this.props.searchResults} />
+                                : <BooksIterator moveBook={this.props.moveBook} books={this.props.books} />}
                             </ol>
                         </div>
                     </div>
