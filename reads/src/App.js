@@ -44,6 +44,23 @@ class BooksApp extends React.Component {
     ));
   };
 
+  moveBook = ( shelf, bookId ) => {
+    BooksAPI.get( bookId ).then( ( book ) => (
+      BooksAPI.update( book, shelf ).then( ( data ) => {
+        this.setState( ( prevState ) => {
+          let bookIdx = prevState.books.findIndex((obj => obj.id === bookId));
+          let updatedBook = prevState.books[bookIdx];
+          updatedBook.shelf = shelf;
+          let newBooksList = prevState.books.filter((book) => book.id !== bookId);
+          let finalBooksList = [...newBooksList, updatedBook];
+          return {
+            books: finalBooksList
+          };
+        })
+      })
+    ));
+  };
+
 
   render() {
     return (
@@ -60,10 +77,11 @@ class BooksApp extends React.Component {
                     handleSearch={this.handleSearch}
                     setBooksList={this.setBooksList}
                     books={this.state.books}
+                    moveBook={this.moveBook}
                   />
                 </Route>
                 <Route exact path="/">
-                  <BooksList books={this.state.books} />
+                  <BooksList books={this.state.books} moveBook={this.moveBook} />
                 </Route>
               </Switch>
               <div className="open-search">

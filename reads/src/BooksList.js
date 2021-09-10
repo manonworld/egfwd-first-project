@@ -17,7 +17,7 @@ class BooksList extends Component {
           } else if ( book.shelf === 'read' ) {
             read.push(book);
           }
-          return "Not Implemented";
+          return "Unimplemented";
         });
       };
 
@@ -44,7 +44,7 @@ class BooksList extends Component {
                   <h2 className="bookshelf-title">{ this.convertText( title ) }</h2>
                   <div className="bookshelf-books">
                     <ol className="books-grid">
-                      <BooksIterator books={ cats[ title ] } />
+                      <BooksIterator moveBook={this.props.moveBook} books={ cats[ title ] } />
                     </ol>
                   </div>
                 </div>
