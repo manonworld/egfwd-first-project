@@ -1,5 +1,5 @@
 import React from 'react'
-// import * as BooksAPI from './BooksAPI'
+import * as BooksAPI from './BooksAPI'
 import './App.css'
 
 import {
@@ -14,6 +14,37 @@ import SearchBooks from './SearchBooks';
 
 class BooksApp extends React.Component {
 
+  state = {
+      books: [],
+      searchResults: null
+  }
+
+  constructor ( props ) {
+    super( props );
+    this.listBooks();
+  }
+
+  setBooksList = ( books ) => {
+    this.setState( () => ({
+      books: books
+    }));
+  };
+
+  listBooks = () => {
+      BooksAPI.getAll().then( ( data ) => {
+          this.setBooksList( data );
+      });
+  };
+
+  handleSearch = ( term ) => {
+    BooksAPI.search( term ).then( ( data ) => (
+      this.setState( () => ({
+        searchResults: data
+      }))
+    ));
+  };
+
+
   render() {
     return (
       <div className="app">
@@ -24,14 +55,19 @@ class BooksApp extends React.Component {
             <Router>
               <Switch>
                 <Route exact path="/search">
-                  <SearchBooks />
+                  <SearchBooks
+                    searchResults={this.state.searchResults}
+                    handleSearch={this.handleSearch}
+                    setBooksList={this.setBooksList}
+                    books={this.state.books}
+                  />
                 </Route>
                 <Route exact path="/">
-                  <BooksList />
+                  <BooksList books={this.state.books} />
                 </Route>
               </Switch>
               <div className="open-search">
-                <Link to="/search"><button></button></Link>
+                <Link to="/search"><button style={{cursor: 'pointer'}}></button></Link>
               </div>
             </Router>
           </div>
