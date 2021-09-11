@@ -4,7 +4,7 @@ function BooksIterator ( props ) {
     return props.books && props.books.length > 0 ? props.books.map( ( book ) => {
             let thumbnail = book.hasOwnProperty("imageLinks") 
                 ? book.imageLinks.smallThumbnail 
-                : "http://localhost:3000/book.png";
+                : "/book.png"; 
             
             return (
                 <div className="book">
