@@ -41,3 +41,12 @@ Please run:
 ``` npm start ``` or ``` yarn start ```
 
 From within reads/ directory.
+
+
+### Clean
+
+For dockerized environment only
+
+Please run:
+
+``` make clean ```
