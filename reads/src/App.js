@@ -16,7 +16,7 @@ class BooksApp extends React.Component {
 
   state = {
       books: [],
-      searchResults: null
+      searchResults: []
   }
 
   constructor ( props ) {
@@ -37,24 +37,38 @@ class BooksApp extends React.Component {
   };
 
   handleSearch = ( term ) => {
-    BooksAPI.search( term ).then( ( data ) => (
-      this.setState( () => ({
+    BooksAPI.search( term ).then( ( data ) => {
+      if ( data.length === 0 ) {
+        return this.setState( () => ({
+          searchResults: []
+        }));
+      }
+      return this.setState( () => ({
         searchResults: data
       }))
-    ));
+    });
   };
 
-  moveBook = ( shelf, bookId, searchOrList ) => {
-    BooksAPI.get( bookId ).then( ( book ) => (
-      BooksAPI.update( book, shelf ).then( ( data ) => {
-        if ( searchOrList === 'search' ) {
-          this.updateSearchResults( bookId, shelf );
-          this.updateBooksList( book, shelf );
-        } else {
-          this.updateBooksList( book, shelf );
-        }
-      })
-    ));
+  resetSearch = () => {
+    this.setState( () => ({
+      searchResults: []
+    }));
+  }
+
+  convertText = (s) => {
+    let res = s.split(/(?=[A-Z])/).join(' ');
+    return res.charAt(0).toUpperCase() + res.substring(1);
+  };
+
+  moveBook = ( shelf, book, searchOrList ) => {
+    BooksAPI.update( book, shelf ).then( ( data ) => {
+      if ( searchOrList === 'search' ) {
+        this.updateSearchResults( book.id, shelf );
+        this.updateBooksList( book, shelf );
+      } else {
+        this.updateBooksList( book, shelf );
+      }
+    });
   };
 
   updateBooksList = ( book, shelf ) => {
@@ -94,10 +108,12 @@ class BooksApp extends React.Component {
                     setBooksList={this.setBooksList}
                     books={this.state.books}
                     moveBook={this.moveBook}
+                    resetSearch={this.resetSearch}
+                    convertText={this.convertText}
                   />
                 </Route>
                 <Route exact path="/">
-                  <BooksList books={this.state.books} moveBook={this.moveBook} />
+                  <BooksList convertText={this.convertText} books={this.state.books} moveBook={this.moveBook} />
                 </Route>
               </Switch>
               <div className="open-search">

@@ -28,11 +28,6 @@ class BooksList extends Component {
       };
     };
 
-    convertText = (s) => {
-      let res = s.split(/(?=[A-Z])/).join(' ');
-      return res.charAt(0).toUpperCase() + res.substring(1);
-    };
-
     render () {
       let cats = this.categorizeBooks();
       return (
@@ -40,11 +35,15 @@ class BooksList extends Component {
           <div>
             {Object.keys( cats ).map( ( title ) => {
               return (
-                <div className="bookshelf">
-                  <h2 className="bookshelf-title">{ this.convertText( title ) }</h2>
-                  <div className="bookshelf-books">
-                    <ol className="books-grid">
-                      <BooksIterator moveBook={this.props.moveBook} books={ cats[ title ] } />
+                <div key={title+"bookshelf"} className="bookshelf">
+                  <h2 key={title+"bookshelf-title"} className="bookshelf-title">{ this.props.convertText( title ) }</h2>
+                  <div key={title+"bookshelf-books"} className="bookshelf-books">
+                    <ol key={title+"books-grid"} className="books-grid">
+                      <BooksIterator key={title+"iterator"}
+                        library={ cats[title] }
+                        convertText={this.props.convertText} 
+                        moveBook={this.props.moveBook} 
+                        books={ cats[ title ] } />
                     </ol>
                   </div>
                 </div>
