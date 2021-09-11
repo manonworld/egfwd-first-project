@@ -23,6 +23,8 @@ Please run:
 
 ``` npm install ``` or ``` yarn install ```
 
+From within reads/ directory.
+
 
 ### Run
 
@@ -37,3 +39,5 @@ For local environment
 Please run:
 
 ``` npm start ``` or ``` yarn start ```
+
+From within reads/ directory.
