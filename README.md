@@ -8,6 +8,11 @@ The EGFWD first project (Reads)
     1. nodejs
     2. npm or yarn
 
+    And for dockerized environment
+
+    1. docker
+    2. docker-compose
+
 
 ### Installation
 
