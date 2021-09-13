@@ -1,8 +1,18 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import BooksIterator from './BooksIterator';
+import PropTypes from 'prop-types';
 
 class SearchBooks extends Component {
+
+    static propTypes = {
+        handleSearch: PropTypes.func.isRequired,
+        resetSearch: PropTypes.func.isRequired,
+        books: PropTypes.array.isRequired,
+        moveBook: PropTypes.func.isRequired,
+        searchResults: PropTypes.array.isRequired,
+        convertText: PropTypes.func.isRequired
+    }
 
     state = {
         searchResults: false

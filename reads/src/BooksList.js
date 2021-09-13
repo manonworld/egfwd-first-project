@@ -1,7 +1,14 @@
 import React, { Component } from 'react';
 import BooksIterator from './BooksIterator';
+import PropTypes from 'prop-types';
 
 class BooksList extends Component {
+
+    static propTypes = {
+      books: PropTypes.array.isRequired,
+      convertText: PropTypes.func.isRequired,
+      moveBook: PropTypes.func.isRequired
+    }
 
     categorizeBooks = () => {
       let currentlyReading = [];
