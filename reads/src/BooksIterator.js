@@ -1,6 +1,15 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 class BooksIterator extends React.Component {
+
+    static propTypes = {
+        books: PropTypes.array.isRequired,
+        moveBook: PropTypes.func.isRequired,
+        searchOrList: PropTypes.string.isRequired,
+        convertText: PropTypes.func.isRequired,
+        library: PropTypes.array.isRequired
+    }
 
     categories = ['currentlyReading', 'wantToRead', 'read', 'none'];
 
